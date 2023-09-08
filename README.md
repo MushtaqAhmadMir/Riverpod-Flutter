@@ -65,13 +65,10 @@ class SimpleProviderExample extends ConsumerWidget {
 # Differences:
  Unlike the basic Provider, the StateProvider allows you to read and update the state within your widget tree. It's typically used for localized state changes, such as toggling a UI element.
 # How it works?
-```
- final intStateProvider = StateProvider.autoDispose<int>((ref) => 0);
+```final intStateProvider = StateProvider.autoDispose<int>((ref) => 0);
 ```
 
- ```
-
- import 'package:flutter/material.dart';
+ ```import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/state_provider.dart';
 
@@ -105,7 +102,6 @@ class StateProviderExample extends ConsumerWidget {
     );
   }
 }
-
  ```
 
 # FutureProvider:
@@ -117,8 +113,7 @@ class StateProviderExample extends ConsumerWidget {
  It's designed to handle asynchronous operations and provides a convenient way to work with data that isn't immediately available.
 
 # How it works?
-```
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+```import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //provider with modifier autodispose
 final weatherProvider = FutureProvider.autoDispose<String>(
@@ -145,8 +140,7 @@ Future<String> fetchWeatherFamily(String city) async {
 }
 ```
 
-```
-import 'package:flutter/material.dart';
+```import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/future_provider.dart';
 
@@ -218,9 +212,11 @@ class FutureProviderExample extends ConsumerWidget {
  It works with streams and allows you to reactively update your UI as new data arrives.
 
  # How it works?
- ```
- import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+ ```import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 //using autodispose will not save/cache state , it will create new state on each render, removing autodispose will cache the state
+
 final numberProvider = StreamProvider.autoDispose<int>(
   (ref) => fetchNumbers(),
 );
@@ -242,8 +238,7 @@ Stream<int> fetchNumbers() {
  It uses a custom state management class that extends StateNotifier to handle state changes. This provides better encapsulation and organization of state management code.
 
  # How it works?
- ```
- final counterNotifierprovider = StateNotifierProvider<CounterNotifier,int>( //notifier and state type
+ ```final counterNotifierprovider = StateNotifierProvider<CounterNotifier,int>( //notifier and state type
   (ref) => CounterNotifier(),
 );
 
@@ -256,8 +251,7 @@ class CounterNotifier extends StateNotifier<int> {
 }
  ```
 
- ```
- import 'package:flutter/material.dart';
+ ```import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/state_notifier_provider.dart';
 
@@ -290,9 +284,7 @@ class StateNotifierProviderExample extends ConsumerWidget {
       ),
     );
   }
-}
-
- ```
+}```
 
 # ChangeNotifierProvider:
 
@@ -304,8 +296,7 @@ class StateNotifierProviderExample extends ConsumerWidget {
 
  # How it Works
 
-```
-final changeNotifierProvider = ChangeNotifierProvider<User>(
+```final changeNotifierProvider = ChangeNotifierProvider<User>(
   (ref) => User(),
 );
 
@@ -320,8 +311,7 @@ class User extends ChangeNotifier {
 }
 ```
 
-```
-import 'package:flutter/material.dart';
+```import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/change_notifier_provider.dart';
 
@@ -354,9 +344,7 @@ class ChangeNotifierProviderExample extends ConsumerWidget {
       ),
     );
   }
-}
-
-```
+}```
 
 
 In summary, the choice of which provider to use depends on your specific use case and requirements. Here's a general guideline:
@@ -381,11 +369,9 @@ Useful for managing resources like network connections, timers, or database conn
 # How it works
 
 ```
-//provider with modifier autodispose
 final weatherProvider = FutureProvider.autoDispose<String>(
   (ref) => fetchWeather(),
 );
-
 ```
 
 
@@ -400,7 +386,6 @@ Useful for scenarios like creating a provider for each item in a list, each with
 
 # How to use
 ```
-//provider with modifier family
 final weatherProviderFamily = FutureProvider.family<String, String>(
   (ref, city) => fetchWeatherFamily(city),
 );
