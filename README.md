@@ -216,7 +216,8 @@ class FutureProviderExample extends ConsumerWidget {
 
  # How it works?
 
- ```import 'package:flutter_riverpod/flutter_riverpod.dart';
+ ```
+ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //using autodispose will not save/cache state , it will create new state on each render, removing autodispose will cache the state
 
@@ -231,6 +232,44 @@ Stream<int> fetchNumbers() {
   ).take(20);
 }
  ```
+ ```
+ import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_poc_flutter/providers/stream_provider.dart';
+
+class StreamProviderExample extends ConsumerWidget {
+  const StreamProviderExample({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var asyncValue = ref.watch(numberProvider);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Stream Provider'),
+      ),
+      body: asyncValue.when(data: (data) {
+        return Center(
+          child: Text(
+            data.toString(),
+            style: const TextStyle(fontSize: 28),
+          ),
+        );
+      }, error: (error, st) {
+        return Center(
+          child: Text(
+            asyncValue.toString(),
+            style: const TextStyle(fontSize: 28),
+          ),
+        );
+      }, loading: () {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }),
+    );
+  }
+}
+ ```
 
 # StateNotifierProvider:
 
@@ -241,7 +280,8 @@ Stream<int> fetchNumbers() {
  It uses a custom state management class that extends StateNotifier to handle state changes. This provides better encapsulation and organization of state management code.
 
  # How it works?
- ```final counterNotifierprovider = StateNotifierProvider<CounterNotifier,int>( //notifier and state type
+ ```
+ final counterNotifierprovider = StateNotifierProvider<CounterNotifier,int>( //notifier and state type
   (ref) => CounterNotifier(),
 );
 
@@ -254,7 +294,8 @@ class CounterNotifier extends StateNotifier<int> {
 }
  ```
 
- ```import 'package:flutter/material.dart';
+ ```
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/state_notifier_provider.dart';
 
@@ -299,7 +340,8 @@ class StateNotifierProviderExample extends ConsumerWidget {
 
  # How it Works
 
-```final changeNotifierProvider = ChangeNotifierProvider<User>(
+```
+final changeNotifierProvider = ChangeNotifierProvider<User>(
   (ref) => User(),
 );
 
@@ -314,7 +356,8 @@ class User extends ChangeNotifier {
 }
 ```
 
-```import 'package:flutter/material.dart';
+```
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/change_notifier_provider.dart';
 
