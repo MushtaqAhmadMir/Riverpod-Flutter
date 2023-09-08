@@ -232,8 +232,9 @@ Stream<int> fetchNumbers() {
   ).take(20);
 }
  ```
+
  ```
- import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/stream_provider.dart';
 
@@ -330,6 +331,7 @@ class StateNotifierProviderExample extends ConsumerWidget {
   }
 }```
 
+
 # ChangeNotifierProvider:
 
 # When to Use:
@@ -340,8 +342,7 @@ class StateNotifierProviderExample extends ConsumerWidget {
 
  # How it Works
 
-```
-final changeNotifierProvider = ChangeNotifierProvider<User>(
+```final changeNotifierProvider = ChangeNotifierProvider<User>(
   (ref) => User(),
 );
 
@@ -390,7 +391,8 @@ class ChangeNotifierProviderExample extends ConsumerWidget {
       ),
     );
   }
-}```
+}
+```
 
 
 In summary, the choice of which provider to use depends on your specific use case and requirements. Here's a general guideline:
