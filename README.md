@@ -404,7 +404,7 @@ In summary, the choice of which provider to use depends on your specific use cas
 - Use `[StateNotifierProvider]` for organized state management in more complex scenarios.
 - Use `[ChangeNotifierProvider]` when working with classes that use Flutter's `ChangeNotifier` mechanism.
 
-# You can also combine these providers to create more complex state management solutions as your app's needs evolve.
+- You can also combine these providers to create more complex state management solutions as your app's needs evolve.
 
 --------------------------------Modifiers-------------------------------------------------
 # autoDispose:
