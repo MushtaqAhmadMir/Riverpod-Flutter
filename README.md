@@ -64,6 +64,45 @@ class SimpleProviderExample extends ConsumerWidget {
 
 # Differences:
  Unlike the basic Provider, the StateProvider allows you to read and update the state within your widget tree. It's typically used for localized state changes, such as toggling a UI element.
+# How it works?
+ ```
+ final intStateProvider = StateProvider.autoDispose<int>((ref) => 0);
+ import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_poc_flutter/providers/state_provider.dart';
+
+class StateProviderExample extends ConsumerWidget {
+  const StateProviderExample({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    var stringValue = ref.watch(stringStateProvider);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(stringValue),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          ref.read(intStateProvider.notifier).state++;
+        },
+      ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          var value = ref.watch(intStateProvider);
+          return Center(
+            child: Text(
+              value.toString(),
+              style: const TextStyle(fontSize: 28),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+ ```
 
 # FutureProvider:
 
@@ -73,6 +112,98 @@ class SimpleProviderExample extends ConsumerWidget {
 # Differences:
  It's designed to handle asynchronous operations and provides a convenient way to work with data that isn't immediately available.
 
+# How it works?
+```
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+//provider with modifier autodispose
+final weatherProvider = FutureProvider.autoDispose<String>(
+  (ref) => fetchWeather(),
+);
+//provider with modifier family
+final weatherProviderFamily = FutureProvider.family<String, String>(
+  (ref, city) => fetchWeatherFamily(city),
+);
+
+Future<String> fetchWeather() async {
+  return await Future.delayed(
+    const Duration(seconds: 3),
+    () => '32°',
+  );
+}
+
+//modifier family
+Future<String> fetchWeatherFamily(String city) async {
+  return await Future.delayed(
+    const Duration(seconds: 3),
+    () => '$city temp is 32°',
+  );
+}```
+```
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_poc_flutter/providers/future_provider.dart';
+
+class FutureProviderExample extends ConsumerWidget {
+  const FutureProviderExample({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Future Provider'),
+      ),
+      body: Column(
+        children: [
+          ref.watch(weatherProvider).when(
+            data: (data) {
+              return Center(
+                child: Text(
+                  data,
+                  style: const TextStyle(fontSize: 28),
+                ),
+              );
+            },
+            error: (error, stacktrace) {
+              return const Center(
+                child: Text('Error'),
+              );
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+          //provider with family
+          ref.watch(weatherProviderFamily('Banglore')).when(
+            data: (data) {
+              return Center(
+                child: Text(
+                  data,
+                  style: const TextStyle(fontSize: 28),
+                ),
+              );
+            },
+            error: (error, stacktrace) {
+              return const Center(
+                child: Text('Error'),
+              );
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+```
+
 # StreamProvider:
 
 # When to Use:
@@ -80,6 +211,22 @@ class SimpleProviderExample extends ConsumerWidget {
 
 # Differences:
  It works with streams and allows you to reactively update your UI as new data arrives.
+
+ # How it works?
+ ```
+ import 'package:flutter_riverpod/flutter_riverpod.dart';
+//using autodispose will not save/cache state , it will create new state on each render, removing autodispose will cache the state
+final numberProvider = StreamProvider.autoDispose<int>(
+  (ref) => fetchNumbers(),
+);
+
+Stream<int> fetchNumbers() {
+  return Stream.periodic(
+    const Duration(seconds: 1),
+    (number) => number,
+  ).take(20);
+}
+ ```
 
 # StateNotifierProvider:
 
@@ -89,6 +236,59 @@ class SimpleProviderExample extends ConsumerWidget {
 # Differences:
  It uses a custom state management class that extends StateNotifier to handle state changes. This provides better encapsulation and organization of state management code.
 
+ # How it works?
+ ```
+ final counterNotifierprovider = StateNotifierProvider<CounterNotifier,int>( //notifier and state type
+  (ref) => CounterNotifier(),
+);
+
+
+class CounterNotifier extends StateNotifier<int> {
+  CounterNotifier() : super(0); //0 is initial state
+  void increment() {
+    state = state + 1; //replacing old state using new , handling immutable
+  }
+}
+ ```
+
+ ```
+ import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_poc_flutter/providers/state_notifier_provider.dart';
+
+class StateNotifierProviderExample extends ConsumerWidget {
+  const StateNotifierProviderExample({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    int counterVal = ref.watch(counterNotifierprovider);
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('StateNotifier Provider'),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            Text(
+              counterVal.toString(),
+              style: const TextStyle(fontSize: 30),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //accessing and imutating/replacing the state and notifier
+          ref.read(counterNotifierprovider.notifier).increment();
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+ ```
+
 # ChangeNotifierProvider:
 
 # When to Use:
@@ -96,6 +296,63 @@ class SimpleProviderExample extends ConsumerWidget {
 
 # Differences:
  It's similar to StateProvider but specifically designed for classes that use Flutter's ChangeNotifier mechanism for notifying listeners about state changes. It integrates well with Flutter's built-in Provider widget.
+
+ # How it Works
+
+```
+final changeNotifierProvider = ChangeNotifierProvider<User>(
+  (ref) => User(),
+);
+
+class User extends ChangeNotifier {
+  String userName = 'Mushtaq';
+
+  void changeUserName() {
+    userName = 'Coding with Mushtaq';
+    //notifying all the listeners/consumers that state has changed
+    notifyListeners();
+  }
+}
+```
+
+```
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_poc_flutter/providers/change_notifier_provider.dart';
+
+class ChangeNotifierProviderExample extends ConsumerWidget {
+  const ChangeNotifierProviderExample({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('StateNotifier Provider'),
+      ),
+      body: Consumer(
+        builder: (context, ref, child) {
+          var data = ref.watch(changeNotifierProvider);
+          return Center(
+            child: Text(
+              data.userName.toString(),
+              style: const TextStyle(fontSize: 30),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          //accessing and mutating the state and notifier
+          ref.read(changeNotifierProvider.notifier).changeUserName();
+        },
+        child: const Icon(Icons.change_circle),
+      ),
+    );
+  }
+}
+
+```
+
 
 In summary, the choice of which provider to use depends on your specific use case and requirements. Here's a general guideline:
 
@@ -116,6 +373,16 @@ The autoDispose modifier is used to specify whether a provider should automatica
 Use autoDispose for providers that manage resources that should be released when they are no longer in use.
 Useful for managing resources like network connections, timers, or database connections to prevent resource leaks.
 
+# How it works
+
+```
+//provider with modifier autodispose
+final weatherProvider = FutureProvider.autoDispose<String>(
+  (ref) => fetchWeather(),
+);
+
+```
+
 
 # family:
 # Purpose:  
@@ -125,6 +392,14 @@ The family modifier is used to create a family of providers with a common name a
 
 Use family when you need to create multiple instances of a provider that share the same logic but differ in some parameters.
 Useful for scenarios like creating a provider for each item in a list, each with its own unique data.
+
+# How to use
+```
+//provider with modifier family
+final weatherProviderFamily = FutureProvider.family<String, String>(
+  (ref, city) => fetchWeatherFamily(city),
+);
+```
 
 
 
