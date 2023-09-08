@@ -293,9 +293,8 @@ class CounterNotifier extends StateNotifier<int> {
     state = state + 1; //replacing old state using new , handling immutable
   }
 }
- ```
-
- ```
+ 
+ // consume
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/state_notifier_provider.dart';
@@ -354,11 +353,9 @@ class User extends ChangeNotifier {
     //notifying all the listeners/consumers that state has changed
     notifyListeners();
   }
-}
-```
+}```
 
-```
-import 'package:flutter/material.dart';
+```import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/change_notifier_provider.dart';
 
