@@ -392,8 +392,7 @@ class ChangeNotifierProviderExample extends ConsumerWidget {
       ),
     );
   }
-}
-```
+}```
 
 
 In summary, the choice of which provider to use depends on your specific use case and requirements. Here's a general guideline:
