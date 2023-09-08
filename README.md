@@ -65,8 +65,12 @@ class SimpleProviderExample extends ConsumerWidget {
 # Differences:
  Unlike the basic Provider, the StateProvider allows you to read and update the state within your widget tree. It's typically used for localized state changes, such as toggling a UI element.
 # How it works?
- ```
+```
  final intStateProvider = StateProvider.autoDispose<int>((ref) => 0);
+```
+
+ ```
+
  import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_poc_flutter/providers/state_provider.dart';
@@ -138,7 +142,9 @@ Future<String> fetchWeatherFamily(String city) async {
     const Duration(seconds: 3),
     () => '$city temp is 32°',
   );
-}```
+}
+```
+
 ```
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -201,7 +207,6 @@ class FutureProviderExample extends ConsumerWidget {
     );
   }
 }
-
 ```
 
 # StreamProvider:
