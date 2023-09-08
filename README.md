@@ -397,12 +397,13 @@ class ChangeNotifierProviderExample extends ConsumerWidget {
 
 In summary, the choice of which provider to use depends on your specific use case and requirements. Here's a general guideline:
 
-# Use [Provider] for exposing read-only data or objects.
-# Use [StateProvider] for managing simple, local state within a widget tree.
-# Use [FutureProvider] for working with asynchronous operations.
-# Use [StreamProvider] for handling continuous data streams.
-# Use [StateNotifierProvider] for organized state management in more complex scenarios.
-# Use [ChangeNotifierProvider] when working with classes that use Flutter's ChangeNotifier mechanism.
+- Use `[Provider]` for exposing read-only data or objects.
+- Use `[StateProvider]` for managing simple, local state within a widget tree.
+- Use `[FutureProvider]` for working with asynchronous operations.
+- Use `[StreamProvider]` for handling continuous data streams.
+- Use `[StateNotifierProvider]` for organized state management in more complex scenarios.
+- Use `[ChangeNotifierProvider]` when working with classes that use Flutter's `ChangeNotifier` mechanism.
+
 # You can also combine these providers to create more complex state management solutions as your app's needs evolve.
 
 --------------------------------Modifiers-------------------------------------------------
