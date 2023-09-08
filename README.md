@@ -7,6 +7,9 @@
 
 # All the providers of Riverpod State Management
 # riverpod_poc_flutter
+
+# About
+Riverpod is a state management library for Flutter, developed by the creator of the Provider package, Remi Rousselet. It's designed to provide a more powerful and flexible way to manage state and dependencies in Flutter applications. Riverpod is built on the Provider pattern and offers several advantages
 # Providers:
 1. Provider
 2. StateProvider
@@ -27,6 +30,32 @@
 
 # Differences:
  It's the simplest form of provider and is primarily for exposing data or objects. It doesn't handle state changes or updates. Once created, the value remains constant.
+
+# How it works?
+```
+final stringProvider = Provider<String>((ref) => 'Hello i am string Provider');
+final intProvider = Provider<int>((ref) => 12) 
+```
+```
+class SimpleProviderExample extends ConsumerWidget {
+  const SimpleProviderExample({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+
+    //we consume string provider 
+    String name = ref.read(stringProvider);
+    return Scaffold(
+      appBar: AppBar(title: const Text('Simple Provider'),),
+      body: Center(
+        child: Text(name),
+      ),
+    );
+  }
+}
+```
+
+
 
 # StateProvider:
 
