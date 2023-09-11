@@ -23,6 +23,35 @@ Riverpod is a state management library for Flutter, developed by the creator of 
 2. family
 
 
+
+# Installation
+ 1. Add dependency
+ ```
+  dependencies:
+   flutter:
+    sdk: flutter
+  flutter_riverpod: ^2.3.10
+  ```
+
+ 2. Add App with ProviderScope
+
+ ```
+ 
+void main() {
+  runApp(
+    // For widgets to be able to read providers, we need to wrap the entire
+    // application in a "ProviderScope" widget.
+    // This is where the state of our providers will be stored.
+    ProviderScope(
+      child: MyApp(),
+    ),
+  );
+}
+ ```
+
+ # Lets deep dive into Providers
+
+
 # Provider:
 
 # When to Use:
